@@ -259,16 +259,14 @@ void set_time_auto(void)
 }  
 void start_auto(void)
 {
-            output_high(relay3);// on value gas
-             delay_ms(4000);
+           output_high(relay3);// on value gas
+           delay_ms(4000);
            output_high(relay2);// on ignition tr
-          
-          
+                    
            delay_ms(4000);
            
            delay_ms(2000);
-         //  delay_ms(5000);
-         //  delay_ms(5000);
+
            output_low(relay2);
            delay_ms(3000);
            output_high(relay1);//on pump    
@@ -339,7 +337,7 @@ t_break = t_break1;
     {restart_wdt();
 //================================ON OFF BLOWER=====
 
-IF(FLG_BLOWER==0 && flg_tempover==0)
+/*IF(FLG_BLOWER==0 && flg_tempover==0)
 {
   LOOP_BLOWER++;
   IF(LOOP_BLOWER>500)
@@ -359,7 +357,33 @@ IF(FLG_BLOWER==1 && flg_tempover==0)
       LOOP_BLOWER=0;
       FLG_BLOWER=0;
    }
-}
+}*/
+//////////////////////////////on blower////////////////
+       if(!input(sw_blower))
+       {
+          delay_ms(100);
+          {
+             if(!input(sw_blower))
+             {
+               output_high(relay6);// on blower
+               
+             }
+             
+          }
+       }
+////////////////////////////off blower//////////////
+  if(input(sw_blower))
+    {
+      delay_ms(100);
+       {
+         if(input(sw_blower))
+          {
+           output_low(relay6);// off blower
+                            
+          }
+       }
+    }
+
 
 //================timer rotate=====
 set_adc_channel(1);
@@ -547,37 +571,36 @@ if(loop2>=2)
      {
          flg_lowtemp=1;
 
-          // output_high(relay2);// on ignition tr
-          // delay_ms(50);
-         //  output_LOW(relay3);// on value gas
-          // delay_ms(5000);
-          // delay_ms(5000);
-          // delay_ms(5000);
-          // delay_ms(5000);
-          // output_low(relay2);
-          // output_LOW(relay1);//on pump
-
+           //output_high(relay2);// on ignition tr
+           delay_ms(50);
+           output_LOW(relay3);// on value gas
+           delay_ms(5000);
+           delay_ms(5000);
+           delay_ms(5000);
+           delay_ms(5000);
+           output_low(relay2);
+           output_LOW(relay1);//on pump
          
          flg_tempover=1;
-         output_high(relay6);//BLOWER
+         //output_high(relay6);//BLOWER
          
      }
      if(temp <= lowtemp && flg_lowtemp)
      {
-            output_low(relay6);
-            //output_high(relay3);// on value gas            
-            // delay_ms(4000);
-            //output_high(relay2);// on ignition tr
+           // output_low(relay6);
+            output_high(relay3);// on value gas            
+            delay_ms(4000);
+            output_high(relay2);// on ignition tr
           
           
-         //  delay_ms(5000);
-         //  delay_ms(5000);
-          // delay_ms(2000);
-          // delay_ms(2000);
-          // delay_ms(1000);
-          // output_low(relay2);
-          // delay_ms(3000);
-          // output_high(relay1);//on pump           
+           delay_ms(5000);
+           delay_ms(5000);
+           delay_ms(2000);
+           delay_ms(2000);
+           delay_ms(1000);
+           output_low(relay2);
+           delay_ms(3000);
+           output_high(relay1);//on pump           
                      
            flg_tempover=0;
            flg_lowtemp=0;
@@ -590,8 +613,7 @@ if(loop2>=2)
         
         output_low(relay2); //of ignition
         output_low(relay3); //off value gas
-        output_low(relay4); //off  rotate 
-        
+        output_low(relay4); //off  rotate         
         delay_ms(5000);
         delay_ms(5000);
         
